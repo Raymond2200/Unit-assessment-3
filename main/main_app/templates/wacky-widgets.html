@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet"  href="{%  static  'css/style.css'  %}">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Wacky Widgets</h1>
+    {% if incoming|length == 0 %}
+    <h3>No Widgets Exist</h3>
+    {% else %}
+    <table>
+        <tr>
+            <th>Description</th>
+            <th>Quantity</th>
+            <th>Delete</th>
+        </tr>
+        {% for i in incoming %}
+        <tr>
+            <td>{{i.description}}</td>
+            <td>{{i.quantity}}</td>
+            <td><a href="{% url 'delete' i.id%}">X</a></td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td>Total Quantity</td>
+            <td>{{total}}</td>
+            <td></td>
+        </tr>
+    </table>
+    {% endif %}
+    <h4>Add Widget</h4>
+    <form action="{% url 'home'%}" method="post">
+        {% csrf_token %}
+        <label>Description</label><input name="description" required>
+        <br>
+        <label>Quantity</label><input name="quantity" type="number" required>
+        <br>
+        <input type="submit" value="ADD WIDGET" class="btn">
+    </form>
+
+    <hr>
+</body>
+</html>
